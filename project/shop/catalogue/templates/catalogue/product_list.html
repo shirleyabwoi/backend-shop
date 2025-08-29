@@ -7,51 +7,53 @@
     <title>Document</title>
     {% load static %}
 </head>
-<body>
-    <div class="bg-green-800  h-15 p-3 flex gap-40 text-white">
-       <div class="flex gap-3 ml-80">
-         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-5 w-8 h-8 text-white">
-             <path fill-rule="evenodd" d="M2 3.5A1.5 1.5 0 0 1 3.5 2h1.148a1.5 1.5 0 0 1 1.465 1.175l.716 3.223a1.5 1.5 0 0 1-1.052 1.767l-.933.267c-.41.117-.643.555-.48.95a11.542 11.542 0 0 0 6.254 6.254c.395.163.833-.07.95-.48l.267-.933a1.5 1.5 0 0 1 1.767-1.052l3.223.716A1.5 1.5 0 0 1 18 15.352V16.5a1.5 1.5 0 0 1-1.5 1.5H15c-1.149 0-2.263-.15-3.326-.43A13.022 13.022 0 0 1 2.43 8.326 13.019 13.019 0 0 1 2 5V3.5Z" clip-rule="evenodd" />
-        </svg>
-        <p class="mt-1 text-white">+254712345678</p>
-       </div>
-       <p class="ml-60 mr-40">Get 50% off on selected items | Shop Now</p>
-       <div class="flex gap-2 ml-40">
-        <p>Eng</p>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-        </svg>
-         <p>Location</p>
-        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6 w-5 h-5">
-            <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
-        </svg>
-        
+<body class="bg-gray-50">
 
-       </div>
-
+  <div class="bg-green-800 text-white py-3 px-6 flex justify-between items-center">
+    <div class="flex items-center gap-3">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 20 20" fill="currentColor">
+        <path fill-rule="evenodd" d="M2 3.5A1.5 1.5..." clip-rule="evenodd"/>
+      </svg>
+      <p>+254712345678</p>
     </div>
-    <div class="flex">
-        <div>
-            <h1 class="text-green-800">Grab Upto 50% Off on<br>Selected Products</h1>
+    <p class="font-medium">Get 50% off on selected items | Shop Now</p>
+    <div class="flex items-center gap-4">
+      <p>Eng</p>
+      <p>Location</p>
+    </div>
+  </div>
+ 
+  <div class="bg-white py-12 text-center">
+    <h1 class="text-4xl font-bold text-green-800 mb-4">
+      Grab Upto 50% Off <br> on Selected Products
+    </h1>
+    <p class="text-gray-600">Shop smart, save big!</p>
+  </div>
+  <div class="max-w-6xl mx-auto px-6 py-8">
+    <h3 class="text-2xl font-bold text-gray-800 mb-6">Products</h3>
+    <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      {% for product in products %}
+      <div class="bg-white rounded-xl shadow-lg p-4 hover:shadow-xl transition">
+        {% if product.image_url %}
+        <img src="{{ product.image_url }}" alt="{{ product.name }}" class="w-full h-48 object-cover rounded-lg mb-4">
+        {% else %}
+        <div class="w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg mb-4">
+          <p class="text-gray-500">No image</p>
         </div>
+        {% endif %}
+        <h4 class="text-lg font-semibold text-gray-800 mb-1">
+          <a href="{% url 'product_detail' id=product.id %}" class="hover:text-green-700">{{ product.name }}</a>
+        </h4>
+        <p class="text-sm text-gray-600 mb-2">{{ product.description }}</p>
+        <p class="text-green-700 font-bold mb-3">${{ product.price }}</p>
+        <a href="{% url 'add_to_cart' product.id %}"
+           class="block text-center bg-green-700 text-white py-2 rounded-lg hover:bg-green-800 transition">
+          Add to Cart
+        </a>
+      </div>
+      {% endfor %}
     </div>
-
-<h3>Products</h3>
-    <ul>
-    {% for product in products %}
-        <li>
-            Name: <a href="{% url 'product_detail' id=product.id %}">{{ product.name }}</a><br>
-            Description: {{ product.description }}<br>
-            Price: ${{ product.price }}<br>
-            {% if product.image_url %}
-                <img src="{{ product.image_url }}" alt="{{ product.name }}" style="max-width:200px; max-height:200px;"><br>
-            {% else %}
-                <p>No image available</p>
-            {% endif %}
-        </li>
-    {% endfor %}
-    </ul>
-
+  </div>
 </body>
 </html>
 
